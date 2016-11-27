@@ -1,1 +1,4 @@
+/shared
 !/shared/mysql/.gitkeep
+!/shared/webserver/.gitkeep
+!/shared/aws_configuration/.gitkeep
