@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+    webserver:
+        image: flevanti/docker_webserver
+        mem_limit: 600m
+        memswap_limit: 1g
+        ports:
+            - "80:80"
+        volumes_from:
+            - volumes_htdocs
+        volumes:
+            - ./shared/aws_configuration:/root/.aws
+        links:
+            - mysql:mysql_host.local
+        container_name: WEBSERVER
+        working_dir: /var/www
+    mysql:
+        image: mysql:5.6
+        mem_limit: 2g
+        memswap_limit: 2g
+        volumes_from:
+            - volumes_mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        container_name: DBSERVER
+    # Blank storage containers
+    volumes_htdocs:
+        image: tianon/true
+        volumes:
+            - ./shared/webserver:/var/www/
+    volumes_mysql:
+        image: tianon/true
+        volumes:
+           - ./shared/mysql:/var/lib/mysql
